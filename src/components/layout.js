@@ -1,19 +1,21 @@
-import React from "react"
+import React, {useContext} from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import Footer from "./footer"
 import { css } from "@emotion/core"
-import "./layout.css"
-
+// import "./layout.css"
+import { ThemeContext } from '../contexts/ThemeContext'
 const Layout = ({ children }) => {
+  const {isDark, themeColor} = useContext(ThemeContext)
   const container = css`
   padding: 1rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  color: #363537;
+  background-color: ${themeColor.background};
+  color: ${themeColor.primary};
   .content{
       flex-grow: 1;
   }

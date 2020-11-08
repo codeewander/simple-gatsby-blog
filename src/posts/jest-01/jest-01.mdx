@@ -1,0 +1,147 @@
+---
+title: 【JEST】01 - 建立測試環境
+slug: jest-01
+date: 2020-05-04 22:10:08
+tags: ["JEST"]
+categories: "JEST"
+featureImage: jest.png
+excerpt: Jest 安裝、基本指令及環境設定
+---
+
+> [@JEST 官方文件](https://jestjs.io/docs/en/getting-started)
+
+## 建立環境
+
+### Step1：安裝 JEST 套件
+
+又分**全域安裝**或**專案內安裝**，建議盡量避免使用全域安裝
+
+專案安裝指令如下：
+
+```bash=
+yarn init
+yarn add --dev jest
+```
+
+JEST 官網推薦使用 yarn，不過使用 npm 也可以。
+
+```bash=
+npm init
+npm install --save-dev jest
+```
+
+全域安裝指令如下：
+
+```bash=
+yarn global add jest
+npm install jest --global
+```
+
+## Step2：於 package.json 中設定 script 指令
+
+```json=
+"scripts": { "test": "jest --coverage" }
+```
+
+加 --coverage 參數，可看測試報告
+
+## Step3: 建立待測試的 JS 檔案及測試檔案
+
+以官網範例來說，待測試 JS 檔案為 sum.js，測試檔案為 sum.test.js 檔案
+
+**sum.js**
+
+```
+function sum(a, b) {
+  return a + b;
+}
+module.exports = sum;
+```
+
+**sum.test.js**
+
+```
+const sum = require('./sum');
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+
+測試檔案可放入 **test** 資料夾，js 檔案可放入 js 資料夾。JEST 預設會找 **test** 資料夾下的檔案進行測試。
+![](https://i.imgur.com/ThZIRxZ.png)
+
+## Step4：安裝 babel 並設定 babel.config.js(可選)
+
+若希望能使用 ES6 以上的語法，則需要安裝 babel。
+
+```
+yarn add --dev babel-jest @babel/core @babel/preset-env
+```
+
+**babel.config.js**
+
+```
+
+module.exports = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
+  ],
+};
+```
+
+## Step5：JEST init (可選)
+
+如果有想要修改 JEST 設定檔，可下 jest --init 指令，產生 jest.config.js 檔案。要注意的是，如果 JEST 沒有全域安裝，僅安裝於專案內的話，需使用 yarn jest --init
+
+```bash=
+//全域指令
+jest --init
+
+//專案內指令
+yarn jest --init
+```
+
+接著，就會出現一些選項如下，選擇完就會出現 jest.config.js 檔案了
+![](https://i.imgur.com/1YKcEg6.png)
+
+## Step6：執行測試
+
+輸入指令，就可以看見測試結果了
+
+```bash=
+yarn test
+```
+
+![](https://i.imgur.com/NVRVvvH.png)
+
+由於我們的 test 指令後加上了 --coverage ，因此， Jest 執行測試時也會產生覆蓋率報告，同時，專案目錄下多了一個 converage 的資料夾
+
+## 覆蓋率統計報告
+
+覆蓋率就是用來統計被測試的函式，程式碼的執行比例。各項指標內容由左至右分別為：語法、分支、函式數、行數
+
+% Stmts (語法覆蓋率)
+程式碼中每一段程式碼陳述句(Statements)被測試碼執行到的比率
+
+% branch(分支覆蓋率)
+當程式碼中有分支時，例如 if-else，分支內容被測試碼執行到的比率
+
+% Funcs(功能覆蓋率)
+程式碼中的每個功能被測試碼執行到的比率
+
+% Lines(行覆蓋率)
+指的是程式碼文件中的每一行程式碼被測試碼執行到的比率
+
+Uncovered Line #s
+未執行程式碼於檔案中的行數
+
+參考資料：
+[JEST 官方文件](https://jestjs.io/docs/en/getting-started)

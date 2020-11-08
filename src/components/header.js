@@ -2,10 +2,12 @@ import React, { useContext } from "react"
 import { Link } from "gatsby"
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
-import Logo from "../assets/logo.svg"
-
+import LightModeLogo from "../assets/logo-lightMode.svg"
+import DarkModeLogo from "../assets/logo-darkMode.svg"
+import ModeToggleButton from '../components/modeToggleButton'
+import {ThemeContext} from '../contexts/ThemeContext'
 const Header = () => {
-
+  const { isDark , themeColor } = useContext(ThemeContext)
 
   const headerContainer = css`
     display: flex;
@@ -21,7 +23,7 @@ const Header = () => {
      }
      padding: 1rem 0 3rem 0;
      .title {
-       color: #363537;
+       color: ${themeColor.primary};
        font-size: 1.5rem;
        text-decoration: none;
        text-align: center;
@@ -39,20 +41,20 @@ const Header = () => {
        color: #9e9e9e
      } 
      .nav-active-item:hover {
-       color: #666
+       color: ${themeColor.hoverText}
      } 
   `
 
   const StyledLink = styled(Link)`
-    color: #363537;
+    color: ${themeColor.primary};
     text-decoration: none;
     display: flex;
     font-size: 0.9rem;
     margin-right: 1.3rem;
     border-bottom: 2px solid transparent;
     &:hover {
-      color: #666;
-      border-bottom: 2px solid #666;
+      color: ${themeColor.hoverText};
+      border-bottom: 2px solid ${themeColor.hoverText};
     }
   `
 
@@ -60,7 +62,7 @@ const Header = () => {
   return (
     <header css={headerContainer}>
       <h1>
-        <img src={Logo} className="logo" alt="logo" />
+        <img src={isDark? DarkModeLogo: LightModeLogo} className="logo" alt="logo" />
         <Link className="title" to="/">
           Kira Yang
         </Link>
@@ -79,7 +81,9 @@ const Header = () => {
               </StyledLink>
             </li>
           </ul>
+          
         </nav>
+        <ModeToggleButton/>
       </div>
     </header>
   )

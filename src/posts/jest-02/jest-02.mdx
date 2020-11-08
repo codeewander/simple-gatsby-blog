@@ -1,0 +1,163 @@
+---
+title: 【JEST】02 - 寫一個測試案例(test 函式)
+slug: jest-02
+date: 2020-05-05 22:10:08
+tags: ["JEST"]
+categories: "JEST"
+featureImage: jest.png
+excerpt: 介紹 test 函式的用法
+---
+
+###### tags: `jest`
+
+> [@JEST 官方文件](https://jestjs.io/docs/en/using-matchers)
+
+## 測試 3A 原則
+
+測試包含了三大元素，也就是測試的 3A 概念：Arrange、Act、Assert
+
+| 3A      | 說明                                   |
+| ------- | -------------------------------------- |
+| Arrange | 準備測試數據                           |
+| Act     | 采取行動，一般來說就是呼叫相對應的函式 |
+| Assert  | 斷言，這時需要使用 Matchers            |
+
+一個簡單的測試函式範例如下：
+
+```
+test('adds 1 + 2 to equal 3', () => {
+    // Arrange
+    const number = 1
+    const anotherNumber = 2
+
+    // Act
+    const result = sum(number, anotherNumber)
+
+    // Assert
+    expect(result).toBe(2)
+});
+```
+
+會以 test 函式開始一個測試，使用 expect 搭配 matchers (此範例為 toBe)聲明測試內容。
+
+## test 函式結構
+
+> test(name, fn, timeout)
+
+test 為執行測試的函式，包含三個參數：
+
+**name**
+測試名稱，用來描述測試的目的及內容
+**fn**
+包含測試輸入及期望輸出
+**timeout**
+中止之前等待的時間，預設為 5 秒，一般來說不需特別調整
+
+#### 其他 test 補充：
+
+**test.each**
+重複使用不同數據進行相同測試
+**test.only**
+於大型測試文件中，僅測試部分內容
+**test.skip**
+於大型測試文件中，忽略部分測試
+**test.todo**
+在撰寫測試函式前，可使用此來訂定測試名稱提醒自己
+
+詳細使用方式參考[JEST API](https://jestjs.io/docs/zh-Hans/api#testeachtablename-fn-timeout)
+
+## expect Function
+
+> expect(value)
+
+- 每次進行測試時都需使用 expect 函式，搭配 matches 聲明測試內容，像是：
+
+```
+test('one plus two is three', () => {
+    expect(1 + 2).toBe(3);
+});
+```
+
+- expect Fuction 會回傳一個物件，物件裡有許多匹配器 matches 供使用。以上述程式碼為例，expect(1 + 2) 會回傳一個物件，物件中含有匹配器 toBe 將 expect()的結果(實際值)與自己的參數(期望值)進行比較
+
+- expect 本身帶有多個屬性供使用，常見的包括：
+  **expect.extend(matchers)**
+  用來將自定義的 matcher 加到 JEST 中
+
+**expect.anything()**
+用來匹配除了 null 及 undefined 以外的任何值
+
+**expect.any(constructor)**
+用來匹配建構函式所創建的任何内容
+
+**expect.assertions(number)**
+用來驗證測試時間使用了多少數量的斷言
+
+更多 expect 屬性參考[JEST API](https://jestjs.io/docs/zh-Hans/expect#expectextendmatchers)
+
+## matchers
+
+matchers 提供多種方式驗證測試的回傳值，常見的 matchers 類型包括：
+
+1. 相等匹配
+
+- toBe 用來測試具體某一個值
+- toEqual 用來測試物件，透過遞迴檢查物件或陣列的內容
+
+2. 真實性匹配
+
+- toBeNull 匹配 expect 回傳值為 null
+- toBeUndefined 匹配回傳值為 undefined
+- toBeDefined 和上面的剛好相反
+- toBeTruthy 匹配任何回傳結果為 true
+- toBeFalsy 匹配任何回傳結果為 false
+
+3. 數字型匹配
+
+- toBeCloseTo 用於浮點數的匹配
+
+```
+const value = 0.1 + 0.2
+expect(value).toBeCloseTo(0.3)
+```
+
+- toBeGreaterThan
+- toBeGreaterThanOrEqual
+- toBeLessThan
+- toBeLessThanOrEqual
+
+4. 字串型匹配
+
+- toMatch 支持正規表達式
+
+```
+expect('Kira').not.toMatch(/world/);
+// String 也可以用包含
+expect('Alexandre').toContain("Alex");
+```
+
+5. 陣列型匹配
+
+- toContain 檢查是否包含特定 item
+
+```
+const shoppingList = [
+  'cups',
+  'beer',
+];
+
+test('the shopping list has beer on it', () => {
+  expect(shoppingList).toContain('beer');
+});
+
+// 測試 Array 是否相同
+  expect(shoppingList).toEqual([
+    'cups','beer',
+  ]);
+
+```
+
+更多 matchers 參考[JEST API](https://jestjs.io/docs/zh-Hans/expect#expectextendmatchers)，倘若還不夠也可以使用[jest-extended](https://github.com/jest-community/jest-extended) 套件
+
+參考資料：
+[JEST 官方文件](https://jestjs.io/docs/en/using-matchers)
