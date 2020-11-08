@@ -1,12 +1,17 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby blog",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "blog",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Kira Yang <changru.yang@gmail.com>",
   "dependencies": {
+    "@emotion/core": "^10.1.1",
+    "@emotion/styled": "^10.0.27",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "gatsby": "^2.25.3",
     "gatsby-image": "^2.4.21",
+    "gatsby-plugin-emotion": "^4.3.15",
     "gatsby-plugin-manifest": "^2.5.2",
     "gatsby-plugin-offline": "^3.3.2",
     "gatsby-plugin-react-helmet": "^3.3.14",
@@ -24,7 +29,7 @@
   "keywords": [
     "gatsby"
   ],
-  "license": "0BSD",
+  "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -36,9 +41,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/codeewander/simple-gatsby-blog"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/codeewander/simple-gatsby-blog/issues"
   }
 }
