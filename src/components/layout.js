@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React, { useContext } from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
@@ -8,6 +8,7 @@ import { css } from "@emotion/core"
 import { ThemeContext } from '../contexts/ThemeContext'
 const Layout = ({ children }) => {
   const {isDark, themeColor} = useContext(ThemeContext)
+
   const container = css`
   padding: 1rem;
   margin: 0 auto;

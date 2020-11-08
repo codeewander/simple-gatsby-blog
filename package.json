@@ -11,7 +11,6 @@
     "@material-ui/icons": "^4.9.1",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
-    "babel-plugin-styled-components": "^1.11.1",
     "emotion-theming": "^10.0.27",
     "gatsby": "^2.25.3",
     "gatsby-image": "^2.4.21",
@@ -29,8 +28,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.1.0",
-    "styled-components": "^5.2.1"
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "prettier": "2.1.2"

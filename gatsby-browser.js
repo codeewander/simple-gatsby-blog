@@ -1,23 +1,24 @@
 import React from "react"
-import { theme, ThemeContextProvider, ThemeContext } from "./src/contexts/ThemeContext"
-import { createGlobalStyle, ThemeProvider } from "styled-components"
-
-const GlobalStyles = createGlobalStyle`
-     * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-    }
-    body, html{
-        font-family: Roboto Mono, monospace;
-        height: 100%;
-    }
-`
+import { ThemeContextProvider } from "./src/contexts/ThemeContext"
+import { Global, css } from "@emotion/core"
 
 export const wrapRootElement = ({ element }) => {
   return (
     <ThemeContextProvider>
-      <GlobalStyles />
+      <Global
+        styles={css`
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+          body,
+          html {
+            font-family: Roboto Mono, monospace;
+            height: 100%;
+          }
+        `}
+      />
       {element}
     </ThemeContextProvider>
   )

@@ -1,13 +1,24 @@
 import React, { useContext } from "react"
-import { Link } from "gatsby"
+import { Link,  graphql, useStaticQuery } from "gatsby"
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
 import LightModeLogo from "../assets/logo-lightMode.svg"
 import DarkModeLogo from "../assets/logo-darkMode.svg"
 import ModeToggleButton from '../components/modeToggleButton'
 import {ThemeContext} from '../contexts/ThemeContext'
+
 const Header = () => {
   const { isDark , themeColor } = useContext(ThemeContext)
+
+  const data = useStaticQuery(graphql`
+    query{
+      site{
+        siteMetadata{
+          author
+        }
+      }
+    }
+  `)
 
   const headerContainer = css`
     display: flex;
@@ -58,13 +69,12 @@ const Header = () => {
     }
   `
 
-
   return (
     <header css={headerContainer}>
       <h1>
         <img src={isDark? DarkModeLogo: LightModeLogo} className="logo" alt="logo" />
-        <Link className="title" to="/">
-          Kira Yang
+        <Link className="title" to="/" >
+          {data.site.siteMetadata.author}
         </Link>
       </h1>
       <div className="nav-container">
