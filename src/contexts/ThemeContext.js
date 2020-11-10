@@ -36,12 +36,16 @@ export const ThemeContextProvider = (props) => {
             primary: '#363537',
             hoverText:'#666',
             toggleButton: '#2d3748',
+            link: '#6c63ff',
+            blockquoteBackground: '#f8f8f8'
         },
         darkMode : {
             background: '#363537',
             primary: '#fafafa',
             toggleButton: '#cbd5e0',
-            hoverText:'#666'
+            hoverText:'#666',
+            link:'#bcb8ff',
+            blockquoteBackground: '#6c6c6c'
         }
     }
     

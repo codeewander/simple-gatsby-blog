@@ -8,8 +8,6 @@ featureImage: jest.png
 excerpt: 介紹 test 函式的用法
 ---
 
-###### tags: `jest`
-
 > [@JEST 官方文件](https://jestjs.io/docs/en/using-matchers)
 
 ## 測試 3A 原則
@@ -24,18 +22,10 @@ excerpt: 介紹 test 函式的用法
 
 一個簡單的測試函式範例如下：
 
-```
-test('adds 1 + 2 to equal 3', () => {
-    // Arrange
-    const number = 1
-    const anotherNumber = 2
-
-    // Act
-    const result = sum(number, anotherNumber)
-
-    // Assert
-    expect(result).toBe(2)
-});
+```css
+test("adds 1 + 2 to equal 3", () => { // Arrange const number = 1 const
+anotherNumber = 2 // Act const result = sum(number, anotherNumber) // Assert
+expect(result).toBe(2) })
 ```
 
 會以 test 函式開始一個測試，使用 expect 搭配 matchers (此範例為 toBe)聲明測試內容。
@@ -72,10 +62,10 @@ test 為執行測試的函式，包含三個參數：
 
 - 每次進行測試時都需使用 expect 函式，搭配 matches 聲明測試內容，像是：
 
-```
-test('one plus two is three', () => {
-    expect(1 + 2).toBe(3);
-});
+```javascript
+test("one plus two is three", () => {
+  expect(1 + 2).toBe(3)
+})
 ```
 
 - expect Fuction 會回傳一個物件，物件裡有許多匹配器 matches 供使用。以上述程式碼為例，expect(1 + 2) 會回傳一個物件，物件中含有匹配器 toBe 將 expect()的結果(實際值)與自己的參數(期望值)進行比較
@@ -116,7 +106,7 @@ matchers 提供多種方式驗證測試的回傳值，常見的 matchers 類型�
 
 - toBeCloseTo 用於浮點數的匹配
 
-```
+```javascript
 const value = 0.1 + 0.2
 expect(value).toBeCloseTo(0.3)
 ```
@@ -130,31 +120,25 @@ expect(value).toBeCloseTo(0.3)
 
 - toMatch 支持正規表達式
 
-```
-expect('Kira').not.toMatch(/world/);
+```javascript
+expect("Kira").not.toMatch(/world/)
 // String 也可以用包含
-expect('Alexandre').toContain("Alex");
+expect("Alexandre").toContain("Alex")
 ```
 
 5. 陣列型匹配
 
 - toContain 檢查是否包含特定 item
 
-```
-const shoppingList = [
-  'cups',
-  'beer',
-];
+```javascript
+const shoppingList = ["cups", "beer"]
 
-test('the shopping list has beer on it', () => {
-  expect(shoppingList).toContain('beer');
-});
+test("the shopping list has beer on it", () => {
+  expect(shoppingList).toContain("beer")
+})
 
 // 測試 Array 是否相同
-  expect(shoppingList).toEqual([
-    'cups','beer',
-  ]);
-
+expect(shoppingList).toEqual(["cups", "beer"])
 ```
 
 更多 matchers 參考[JEST API](https://jestjs.io/docs/zh-Hans/expect#expectextendmatchers)，倘若還不夠也可以使用[jest-extended](https://github.com/jest-community/jest-extended) 套件

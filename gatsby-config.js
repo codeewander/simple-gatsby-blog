@@ -49,7 +49,8 @@ module.exports = {
       options: {
         fonts: [
           `roboto mono`,
-          `source sans pro\:300,400,400i,700`
+          `source sans pro\:300,400,400i,700`,
+          `Noto Sans TC`
         ],
         display: 'swap'
       }
