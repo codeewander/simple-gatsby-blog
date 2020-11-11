@@ -1,25 +1,5 @@
 import React,{ useState } from 'react'
 
-export const theme = {
-    fonts: {
-        main: "sans-serif",
-        code: "Roboto Mono, monospace",
-    },
-    lightMode :{
-        background: '#fff',
-        primary: '#363537',
-        hoverText:'#666',
-        toggleButton: '#2d3748',
-    },
-    darkMode : {
-        background: '#363537',
-        primary: '#fafafa',
-        toggleButton: '#cbd5e0',
-        hoverText:'#666'
-    }
-}
-
-
 export const ThemeContext = React.createContext()
 
 export const ThemeContextProvider = (props) => {
@@ -37,7 +17,8 @@ export const ThemeContextProvider = (props) => {
             hoverText:'#666',
             toggleButton: '#2d3748',
             link: '#6c63ff',
-            blockquoteBackground: '#f8f8f8'
+            blockquoteBackground: '#f8f8f8',
+            titleBannerBackground: '#fff'
         },
         darkMode : {
             background: '#363537',
@@ -45,7 +26,9 @@ export const ThemeContextProvider = (props) => {
             toggleButton: '#cbd5e0',
             hoverText:'#666',
             link:'#bcb8ff',
-            blockquoteBackground: '#6c6c6c'
+            blockquoteBackground: '#6c6c6c',
+            titleBannerBackground: '#727171'
+            
         }
     }
     

@@ -2,9 +2,9 @@
 title: 【JEST】02 - 寫一個測試案例(test 函式)
 slug: jest-02
 date: 2020-05-05 22:10:08
-tags: ["JEST"]
+tags: ["JEST", "React"]
 categories: "JEST"
-featureImage: jest.png
+featureImage: jest-logo.jpeg
 excerpt: 介紹 test 函式的用法
 ---
 
@@ -22,10 +22,16 @@ excerpt: 介紹 test 函式的用法
 
 一個簡單的測試函式範例如下：
 
-```css
-test("adds 1 + 2 to equal 3", () => { // Arrange const number = 1 const
-anotherNumber = 2 // Act const result = sum(number, anotherNumber) // Assert
-expect(result).toBe(2) })
+```javascript
+test("adds 1 + 2 to equal 3", () => {
+  // Arrange
+  const number = 1
+  const anotherNumber = 2
+  // Act
+  const result = sum(number, anotherNumber)
+  // Assert
+  expect(result).toBe(2)
+})
 ```
 
 會以 test 函式開始一個測試，使用 expect 搭配 matchers (此範例為 toBe)聲明測試內容。

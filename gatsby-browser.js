@@ -18,8 +18,8 @@ function preToCodeBlock(preProps) {
     // we have a <pre><code> situation
     const props = preProps.children.props;
     const codeString = props.children;
-    console.log(props)
-    console.log(props.className.split("-")[1])
+    // console.log(props)
+    // console.log(props.className.split("-")[1])
     return {
       codeString: codeString.trim(),
       // language: 'javascript',
@@ -31,7 +31,6 @@ function preToCodeBlock(preProps) {
 
 const components = {
   pre: preProps=>{
-    console.log(preProps)
     const props =preToCodeBlock(preProps)
     if(props){
       return <Code {...props}/>

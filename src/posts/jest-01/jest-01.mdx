@@ -18,28 +18,28 @@ excerpt: Jest 安裝、基本指令及環境設定
 
 專案安裝指令如下：
 
-```bash=
+```bash
 yarn init
 yarn add --dev jest
 ```
 
 JEST 官網推薦使用 `yarn`，不過使用 npm 也可以。
 
-```bash=
+```bash
 npm init
 npm install --save-dev jest
 ```
 
 全域安裝指令如下：
 
-```bash=
+```bash
 yarn global add jest
 npm install jest --global
 ```
 
 ## Step2：於 package.json 中設定 script 指令
 
-```json=
+```json
 "scripts": { "test": "jest --coverage" }
 ```
 
@@ -51,38 +51,38 @@ npm install jest --global
 
 **sum.js**
 
-```
+```javascript
 function sum(a, b) {
-  return a + b;
+  return a + b
 }
-module.exports = sum;
+module.exports = sum
 ```
 
 **sum.test.js**
 
-```
-const sum = require('./sum');
+```javascript
+const sum = require("./sum")
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
+test("adds 1 + 2 to equal 3", () => {
+  expect(sum(1, 2)).toBe(3)
+})
 ```
 
 測試檔案可放入 **test** 資料夾，js 檔案可放入 js 資料夾。JEST 預設會找 **test** 資料夾下的檔案進行測試。
+
 ![](https://i.imgur.com/ThZIRxZ.png)
 
 ## Step4：安裝 babel 並設定 babel.config.js(可選)
 
 若希望能使用 ES6 以上的語法，則需要安裝 babel。
 
-```
+```bash
 yarn add --dev babel-jest @babel/core @babel/preset-env
 ```
 
 **babel.config.js**
 
-```
-
+```bash
 module.exports = {
   presets: [
     [
@@ -101,7 +101,7 @@ module.exports = {
 
 如果有想要修改 JEST 設定檔，可下 jest --init 指令，產生 jest.config.js 檔案。要注意的是，如果 JEST 沒有全域安裝，僅安裝於專案內的話，需使用 yarn jest --init
 
-```bash=
+```bash
 //全域指令
 jest --init
 
@@ -116,7 +116,7 @@ yarn jest --init
 
 輸入指令，就可以看見測試結果了
 
-```bash=
+```bash
 yarn test
 ```
 

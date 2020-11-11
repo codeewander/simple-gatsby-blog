@@ -8,7 +8,6 @@ import { css } from "@emotion/core"
 
 const Blog = () => {
   const theme = useContext(ThemeContext)
-  console.log(theme)
   const data = useStaticQuery(graphql`
         query{
             allMdx{
