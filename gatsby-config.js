@@ -1,8 +1,10 @@
 module.exports = {
   siteMetadata: {
     title: `Kira's blog`,
-    description: `a place to save my learning notes`,
+    description: `A blog to keep my learning notes`,
     author: `Kira Yang`,
+    url: "https://github.com/codeewander",
+    featureImage: './src/assets/logo-lightMode.svg'
   },
   plugins: [
     `gatsby-plugin-emotion`,

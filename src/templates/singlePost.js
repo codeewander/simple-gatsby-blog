@@ -6,6 +6,7 @@ import { css } from "emotion"
 import { ThemeContext } from "../contexts/ThemeContext"
 import { EventNote, CalendarToday, Category, AccessTime}  from '@material-ui/icons';
 import Img from "gatsby-image"
+import SEO from '../components/seo'
 
 export const query = graphql`
   query($id: String!) {
@@ -17,6 +18,7 @@ export const query = graphql`
         date(formatString: "MMMM D, YYYY")
         slug
         tags
+        excerpt
         featureImage {
           childImageSharp {
             fixed {
@@ -33,7 +35,8 @@ const SinglePost = ({ data }) => {
   const { themeColor } = useContext(ThemeContext)
   const featureImage =
     data.mdx.frontmatter.featureImage.childImageSharp.fixed
-
+    const seoImage =
+    data.mdx.frontmatter.featureImage.publicURL
   const style = {
     container: css`
       max-width: 900px;
@@ -227,6 +230,7 @@ const SinglePost = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title={data.mdx.frontmatter.title} image={seoImage} description={data.mdx.frontmatter.excerpt}/>
       <div className={style.container}>
         <div className={style.titleBanner}>
           <Img fixed={featureImage}/>
@@ -246,7 +250,6 @@ const SinglePost = ({ data }) => {
             </p>
           </div>
         </div>
-        {/* <Head title={data.mdx.frontmatter.title} /> */}
         <div className={style.postContent}>
           <MDXRenderer>{data.mdx.body}</MDXRenderer>
         </div>
