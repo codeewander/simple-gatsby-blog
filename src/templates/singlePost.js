@@ -5,6 +5,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import { css } from "emotion"
 import { ThemeContext } from "../contexts/ThemeContext"
 import { EventNote, CalendarToday, Category, AccessTime}  from '@material-ui/icons';
+import Img from "gatsby-image"
 
 export const query = graphql`
   query($id: String!) {
@@ -29,12 +30,10 @@ export const query = graphql`
 `
 
 const SinglePost = ({ data }) => {
-  console.log(data)
   const { themeColor } = useContext(ThemeContext)
-  console.log(themeColor)
   const featureImage =
-    data.mdx.frontmatter.featureImage.childImageSharp.fixed.src
-  console.log(featureImage,'featureImage')
+    data.mdx.frontmatter.featureImage.childImageSharp.fixed
+
   const style = {
     container: css`
       max-width: 900px;
@@ -230,7 +229,7 @@ const SinglePost = ({ data }) => {
     <Layout>
       <div className={style.container}>
         <div className={style.titleBanner}>
-          <img src={featureImage}/>
+          <Img fixed={featureImage}/>
           <h1>{data.mdx.frontmatter.title}</h1>
           <div style={{marginTop:'10px'}}>
             <p className="info">
