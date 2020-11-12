@@ -4,7 +4,6 @@ import { MDXProvider } from "@mdx-js/react"
 // import { preToCodeBlock } from 'mdx/utils'
 import { Global, css } from "@emotion/core"
 import Code from './src/components/code'
-import './language-tabs.css'
 
 function preToCodeBlock(preProps) {
   if (

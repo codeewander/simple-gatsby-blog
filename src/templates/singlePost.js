@@ -56,12 +56,15 @@ const SinglePost = ({ data }) => {
       border: 2px solid black;
       padding: 1.5rem 1.5rem 0;
       box-shadow: 1rem 1rem 0 0 black;
-      img{
+      .gatsby-image-wrapper{
         grid-row-start: 1;
         grid-row-end: 3;
         grid-column: 1;
         height: 8rem;
         padding-right: 2rem;
+        width: 100% !important;
+        height: unset !important;
+        margin-bottom: 1rem;
       }
       h1{
         font-size: 2rem;
