@@ -16,16 +16,20 @@ export const ThemeContextProvider = (props) => {
             primary: '#363537',
             hoverText:'#666',
             toggleButton: '#2d3748',
-            link: '#6c63ff',
+            link: '#16a596',
+            linkUnderLine: 'rgba(0,0,0,0.1)',
+            hoverLink: '#9DDFD3',
             blockquoteBackground: '#f8f8f8',
-            titleBannerBackground: '#fff'
+            titleBannerBackground: '#fff',
         },
         darkMode : {
             background: '#363537',
             primary: '#fafafa',
             toggleButton: '#cbd5e0',
             hoverText:'#666',
-            link:'#bcb8ff',
+            link:'#9DDFD3',
+            linkUnderLine: 'rgba(0,0,0,0.5)',
+            hoverLink: '#9DDFD3',
             blockquoteBackground: '#6c6c6c',
             titleBannerBackground: '#727171'
             

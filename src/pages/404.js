@@ -28,7 +28,7 @@ const NotFoundPage = ({ data }) => {
   }
   return (
     <Layout>
-      <SEO title="404: Not found" />
+      <SEO title="404 Not found" />
       <div className={style.contentContainer}>
         <Img fixed={featureImage} />
         <p>Oops! The page you were looking for does not exist</p>

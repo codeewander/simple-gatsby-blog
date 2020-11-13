@@ -1,0 +1,126 @@
+---
+title: 【Gatsby】基本功能操作
+slug: gatsby-01
+date: 2020-11-07 13:10:08
+tags: ["Gatsby", "React"]
+categories: "Gatsby"
+featureImage: gatsby-logo.png
+excerpt: Gatby 基本指令及環境設定
+---
+
+## 前言
+
+GatsbyJS 是一個建構在 React 上的靜態網站產生器，擁有豐富的開源生態圈，可以利用 React 加 GraphQL 快速產生多頁面網頁。
+
+## 安裝
+
+### 基本安裝指令
+
+1. 安裝 Gatsby CLI - 可以使用 gatsby 指令
+
+```bash
+yarn add -g gatsby-cli
+```
+
+2. 創建 Gatsby 專案
+
+```bash
+gatsby new <project name>
+```
+
+3. 執行本地端伺服器
+
+```bash
+cd <project name>
+gatsby develop
+```
+
+這時候可以在 `localhost:8000` 看到預設的網站樣式，
+在 `localhost:8000/___graphql` 則可以看到 Graphql 的資料結構。
+
+### 使用模板安裝
+
+Gatsby 官網上的[Gatsby Starter Library](https://www.gatsbyjs.com/starters)可以找到許多開源的模板，可以快速套用別人已經開發好的網站架構，再做客製化調整。
+
+```bash
+gatsby new <project name> <template download url>
+cd <project name>
+gatsby develop
+```
+
+如果沒有要做修改的話，網站其實就可以上線了！可以透過以下的指令產生 production build：
+
+```bash
+gatsby build
+```
+
+另外，也可以在本地測試 production 的效果
+
+```bash
+gatsby serve
+```
+
+## Gatsby 專案架構
+
+```bash
+/
+|-- .cache/
+|-- public/
+|-- src/
+    |-- pages/
+    |-- components/
+    |-- templates/
+    ├── styles/
+    ├── assets/
+|-- /static
+|-- gatsby-config.js
+|-- gatsby-node.js
+|-- gatsby-ssr.js
+|-- gatsby-browser.js
+```
+
+- `.cache` : Gatsby 自動創建的內部緩存，應加到.gitignore
+- `public`: Gatsby 自動創建的靜態網站資料夾，應加到.gitignore
+- `src`: 放置主要開發頁面的程式碼，例如：pages 頁面、元件 components、templates 模板、styles 樣式、assets 靜態檔案等
+  - src/pages 下的元件會根據其文件名自動變為具有路徑的頁面
+- `static`: webpack 不會處理該資料夾的檔案，而是將其原封不動地複製到 public 資料夾中
+- `gatsby-config.js`: [Gatsby 網站的基本設定](https://www.gatsbyjs.com/docs/gatsby-config/)，開發過程主要會編輯的內容包括：
+  - `siteMetadata` : 網站基本資訊
+  - `plugins` : 安裝套件
+  - `pathPrefix` ：網站 baseURL
+
+## 搭配套件
+
+1. `gatsby-plugin-emotion` : CSS-in-JS 套件
+
+```bash
+yarn add gatsby-plugin-emotion @emotion/core @emotion/styled
+```
+
+在 .gatsby-config.js 中進行設定
+
+```javascript
+module.exports = {
+  plugins: [`gatsby-plugin-emotion`],
+}
+```
+
+2. `gatsby-transformer-sharp` 和 `gatsby-plugin-sharp` : 圖片呈現及優化
+
+```bash
+yarn add gatsby-transformer-sharp gatsby-plugin-sharp
+```
+
+在 .gatsby-config.js 中進行設定
+
+```javascript
+module.exports = {
+  plugins: [`gatsby-plugin-sharp`, `gatsby-transformer-sharp`],
+}
+```
+
+3. `gatsby-plugin-google-fonts`: 使用 Google Font 字體
+
+```bash
+yarn add gatsby-plugin-google-fonts
+```

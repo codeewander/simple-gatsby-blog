@@ -67,7 +67,7 @@ const SinglePost = ({ data }) => {
         margin-bottom: 1rem;
       }
       h1{
-        font-size: 2rem;
+        font-size: 28px;
         font-weight: 700;
         grid-row: 1;
         grid-column: 2;
