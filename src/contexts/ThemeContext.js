@@ -21,6 +21,7 @@ export const ThemeContextProvider = (props) => {
             hoverLink: '#9DDFD3',
             blockquoteBackground: '#f8f8f8',
             titleBannerBackground: '#fff',
+            tagsColor :['#b2deec','#16a596','#8bcdcd','#19d4da','#7fc381']
         },
         darkMode : {
             background: '#363537',
@@ -31,12 +32,12 @@ export const ThemeContextProvider = (props) => {
             linkUnderLine: 'rgba(0,0,0,0.5)',
             hoverLink: '#9DDFD3',
             blockquoteBackground: '#6c6c6c',
-            titleBannerBackground: '#727171'
-            
+            titleBannerBackground: '#727171',
+            tagsColor : ['#b2deec','#16a596','#8bcdcd','#19d4da','#7fc381']
         }
     }
     
-    const themeColor = isDark? theme.darkMode: theme.lightMode
+    const themeColor = isDark? theme.darkMode: theme.lightMode;
     
     return (
       <ThemeContext.Provider value={{ themeColor, isDark, toggleMode}}>

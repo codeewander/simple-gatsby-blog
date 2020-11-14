@@ -4,9 +4,14 @@ import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { css } from "emotion"
 import { ThemeContext } from "../contexts/ThemeContext"
-import { EventNote, CalendarToday, Category, AccessTime}  from '@material-ui/icons';
+import {
+  LocalOffer,
+  CalendarToday,
+  Category,
+  AccessTime,
+} from "@material-ui/icons"
 import Img from "gatsby-image"
-import SEO from '../components/seo'
+import SEO from "../components/seo"
 
 export const query = graphql`
   query($id: String!) {
@@ -19,6 +24,7 @@ export const query = graphql`
         slug
         tags
         excerpt
+        categories
         featureImage {
           childImageSharp {
             fixed {
@@ -33,10 +39,9 @@ export const query = graphql`
 
 const SinglePost = ({ data }) => {
   const { themeColor } = useContext(ThemeContext)
-  const featureImage =
-    data.mdx.frontmatter.featureImage.childImageSharp.fixed
-    const seoImage =
-    data.mdx.frontmatter.featureImage.publicURL
+
+  const featureImage = data.mdx.frontmatter.featureImage.childImageSharp.fixed
+  const seoImage = data.mdx.frontmatter.featureImage.publicURL
   const style = {
     container: css`
       max-width: 900px;
@@ -47,7 +52,8 @@ const SinglePost = ({ data }) => {
         }
       }
     `,
-    titleBanner:css`
+    titleBanner: css`
+      min-height: 150px;
       background: ${themeColor.titleBannerBackground};
       display: grid;
       grid-template-columns: 10rem auto;
@@ -56,7 +62,7 @@ const SinglePost = ({ data }) => {
       border: 2px solid black;
       padding: 1.5rem 1.5rem 0;
       box-shadow: 1rem 1rem 0 0 black;
-      .gatsby-image-wrapper{
+      .gatsby-image-wrapper {
         grid-row-start: 1;
         grid-row-end: 3;
         grid-column: 1;
@@ -65,21 +71,46 @@ const SinglePost = ({ data }) => {
         width: 100% !important;
         height: unset !important;
         margin-bottom: 1rem;
+        img {
+          object-fit: contain !important;
+        }
       }
-      h1{
-        font-size: 28px;
+      h1 {
+        font-size: 26px;
         font-weight: 700;
         grid-row: 1;
         grid-column: 2;
-        margin:0;
+        margin: 0;
       }
-      .info{
+      .infoContainer {
+        margin-top: 10px;
         display: flex;
-        svg{
-          width: 24px;
-          height:24px;
-          margin: 0 1rem 1rem;
+      }
+      .info {
+        display: flex;
+        font-size: 14px;
+        margin-bottom: 5px;
+        margin-right: 20px;
+        align-items: center;
+        svg {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
+          /* margin: 0 1rem 1rem; */
         }
+      }
+    `,
+    tagsContainer: css`
+      display: flex;
+      svg {
+        margin-right: 10px;
+      }
+      .tag {
+        margin-right: 5px;
+        background: red;
+        border-radius: 4px;
+        padding: 2px;
+        font-size: 14px;
       }
     `,
     postContent: css`
@@ -233,25 +264,41 @@ const SinglePost = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={data.mdx.frontmatter.title} image={seoImage} description={data.mdx.frontmatter.excerpt}/>
+      <SEO
+        title={data.mdx.frontmatter.title}
+        image={seoImage}
+        description={data.mdx.frontmatter.excerpt}
+      />
       <div className={style.container}>
         <div className={style.titleBanner}>
-          <Img fixed={featureImage}/>
+          <Img fixed={featureImage} />
           <h1>{data.mdx.frontmatter.title}</h1>
-          <div style={{marginTop:'10px'}}>
+          <div className="infoContainer">
             <p className="info">
-              <CalendarToday/> 
+              <CalendarToday />
               <span>{data.mdx.frontmatter.date}</span>
             </p>
             <p className="info">
-              <AccessTime/> 
+              <AccessTime />
               <span>{data.mdx.timeToRead} minute(s)</span>
             </p>
             <p className="info">
-              <AccessTime/> 
-              <span>{data.mdx.frontmatter.tags.join(',')}</span>
+              <Category />
+              <span>{data.mdx.frontmatter.categories}</span>
             </p>
           </div>
+        </div>
+        <div className={style.tagsContainer}>
+          <LocalOffer />
+          {data.mdx.frontmatter.tags.map((tag, index) => (
+            <div
+              key={tag}
+              className="tag"
+              style={{ backgroundColor: `${themeColor.tagsColor[index % 5]}` }}
+            >
+              {tag}
+            </div>
+          ))}
         </div>
         <div className={style.postContent}>
           <MDXRenderer>{data.mdx.body}</MDXRenderer>

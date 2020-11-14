@@ -5,9 +5,9 @@ import { ThemeContext } from "../contexts/ThemeContext"
 import styled from "@emotion/styled"
 
 
-const CategoryMenu = ({setTargetCategory,setActiveTab}) => {
+const TagsMenu = ({setTargetTag,setActiveTab}) => {
   const {themeColor} = useContext(ThemeContext)
-
+  
   const style={
     container: css`
       .title{
@@ -17,58 +17,51 @@ const CategoryMenu = ({setTargetCategory,setActiveTab}) => {
         font-size: 18px;
         text-align: center;
       }
-      ul{
-        margin-top: 3px;
-        border-top: 1px solid ${themeColor.primary};
-        padding: 10px 0;
-      }
-      li{
-        list-style: none;
-        font-size: 14px;
-        padding-bottom: 5px;
-      }
+     .tagsWrapper{
+       margin-top: 3px;
+       border-top: 1px solid ${themeColor.primary};
+       padding-top: 5px;
+
+     }
     `
   }
   const data = useStaticQuery(graphql`
     query {
       allMdx {
-        group(field: frontmatter___categories) {
+        group(field: frontmatter___tags) {
           fieldValue
           totalCount
         }
       }
     }
   `)
+  
   const StyledLink = styled(Link)`
     color: ${themeColor.primary};
     text-decoration: none;
-    font-size: 0.9rem;
     margin-right: 1.3rem;
     border-bottom: 2px solid transparent;
     &:hover {
       color: ${themeColor.hoverText};
     }
   `
-  const handleFilterCategory =(target)=>{
-    setTargetCategory(target)
-    setActiveTab(0)
+  const handleFilterTag =(target)=>{
+    setTargetTag(target)
+    setActiveTab(2)
   }
 
   return (
     <div className={style.container}>
-      <h2 className="title">分類</h2>
-      <ul>
+      <h2 className="title">標籤</h2>
+      <div className="tagsWrapper">
         {data.allMdx.group.map(category => (
-          <li >
-            <StyledLink to="/blog" onClick={()=>handleFilterCategory(category.fieldValue)}>
-            {category.fieldValue}
-            {`(${category.totalCount})`}
+            <StyledLink to="/blog" onClick={()=>handleFilterTag(category.fieldValue)}>
+              <span style={{fontSize: `clamp(12px, ${12 + category.totalCount}px ,20px))`}}>{category.fieldValue}</span>
             </StyledLink>
-          </li>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
 
-export default CategoryMenu
+export default TagsMenu

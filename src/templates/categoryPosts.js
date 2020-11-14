@@ -1,19 +1,12 @@
 import React, { useContext } from "react"
-import { Link, graphql, useStaticQuery } from "gatsby"
-import SEO from "../components/seo"
-import Layout from "../components/layout"
-import { ThemeContext } from "../contexts/ThemeContext"
-import {
-  EventNote,
-  CalendarToday,
-  Category,
-  AccessTime,
-} from "@material-ui/icons"
 import { css } from "emotion"
+import { Link, graphql, useStaticQuery } from "gatsby"
+import { ThemeContext } from "../contexts/ThemeContext"
+import { CalendarToday, Category, AccessTime } from "@material-ui/icons"
+import PropTypes from "prop-types"
 
-const CategoryPosts = ({targetCategory}) => {
+const CategoryPosts = ({ targetCategory }) => {
   const { themeColor } = useContext(ThemeContext)
-  console.log(targetCategory)
 
   const data = useStaticQuery(graphql`
     query {
@@ -35,10 +28,13 @@ const CategoryPosts = ({targetCategory}) => {
     }
   `)
 
-  let renderData = data.allMdx.group
-  if(targetCategory){
-    renderData = data.allMdx.group.filter(item=>item.fieldValue === targetCategory)
-  }else{
+  let renderData
+
+  if (targetCategory) {
+    renderData = data.allMdx.group.filter(
+      item => item.fieldValue === targetCategory
+    )
+  } else {
     renderData = data.allMdx.group
   }
 
@@ -54,7 +50,6 @@ const CategoryPosts = ({targetCategory}) => {
         margin: 1rem 0;
         a {
           display: inline-block;
-          /* padding: 1rem; */
           font-size: 18px;
           line-height: 1.5rem;
           letter-spacing: 0.5px;
@@ -88,7 +83,7 @@ const CategoryPosts = ({targetCategory}) => {
       }
     `,
   }
-  
+
   return (
     <div className={style.container}>
       {renderData.map(category => (
@@ -117,6 +112,10 @@ const CategoryPosts = ({targetCategory}) => {
       ))}
     </div>
   )
+}
+
+CategoryPosts.propTypes = {
+  targetCategory: PropTypes.string.isRequired,
 }
 
 export default CategoryPosts
