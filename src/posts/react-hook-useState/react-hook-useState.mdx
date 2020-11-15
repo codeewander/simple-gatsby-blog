@@ -1,0 +1,163 @@
+---
+title: React Hook - useState 的使用與踩坑
+slug: react-hook-usestate
+year: 2020
+date: 2020-04-08 10:10:01
+tags: ["React", "React Hook"]
+categories: "React"
+featureImage: react-logo.png
+excerpt: 介紹 React Hook 中的 useState
+---
+
+> `useState` 是 functional component 中用來管理資料狀態的 Hook
+
+## 從 class component 到 functional component 的狀態管理
+
+原本在 class component 的寫法：
+
+```javascript
+class Counter extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { count: 0 }
+  }
+
+  changeCount(amount) {
+    this.setState(prevState => {
+      return { count: prevState.count + amount }
+    })
+  }
+
+  render() {
+    return (
+      <>
+        <span>{this.state.count}</span>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          +1
+        </button>
+      </>
+    )
+  }
+}
+```
+
+轉換成 functional component 後可以用 `useState ()` Hook ，可以改寫成：
+
+```javascript
+function Counter() {
+  const [state, setState] = useState({ count: 0 })
+
+  return (
+    <>
+      <span>{state.count}</span>
+      <button onClick={() => setState({ count: state.count + 1 })}>+1</button>
+    </>
+  )
+}
+```
+
+> `useState` 是一個 function ，接受一個參數為 0 的初始值，回傳一個 Array，第一個值為 `state` ，第二個值為用來改變 `state` 的函式 `setState`，可以使用解構賦值方式取得兩者
+>
+> ```
+> const [state, setState] = useState(initialState);
+> ```
+
+但其實在一個 component 中可以使用多個 `useState`，因此，可以把不同資料狀態分開管理，寫成下面更為直覺：
+
+```javascript
+function Counter() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <span>{count}</span>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+    </>
+  )
+}
+```
+
+## 使用 `useState` 的注意點
+
+### 1：更新資料狀態
+
+在 React 中要改變狀態一定要透過 `setState` 來改變，而 `state` 改變後元件會重新渲染。特別要注意的是， `setState` 是非同步的，也就是說，執行 `setState` 之後不代表 component 的 `state` 一定被立刻更新了。
+
+> `setState(newState)`
+
+舉例來說，上面的 counter 程式碼，如果使用者快速連續點擊 2 次，很可能 count 仍然為 1。因為 count 初始值為 0，在 user 點第一下時，雖然執行了 `setCount` ，但因為是「非同步」執行，所以 `count` 可能還是 0，還沒變成 1，也還沒 re-render。但就在這個從 0 變 1 的「微小細縫」中，user 又點了一次，此時，因為 `count` 依舊是 0，所以 onClick 的 function 內容依舊是 `() => setCount(0 + 1)`，連續 `setCount(0 + 1)` 兩次，最後的結果還是 1，而非所預期的 2，這就是 bug。
+
+如果想要拿到最新的資料狀態或是有用到之前的資料狀態來做更新時，就必須用 `callback` 的方式進行比較安全。
+
+> `setState(prev => next)`
+
+```javascript
+function Counter() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <span>{count}</span>
+      <button onClick={() => setCount(prevState => prevState + 1)}>+1</button>
+    </>
+  )
+}
+```
+
+### 2: Lazy initial state
+
+即使 `useState` 的初始值在之後的 re-render 就不會用了，但是每次 re-render 時都還是會跑一次初始值。舉例來說：
+
+```javascript
+const [state, setState] = useState(getInitialState(props))
+```
+
+一開始，`getInitialState(props)` 算出的值會成為 `state` 的初始值，但之後每次重新渲染還是會執行`getInitialState(props)`，非常耗效能。這時候就可以用 callback 作為參數傳入 `useState` 如下：
+
+```javascript
+const [state, setState] = useState(() => {
+  const initialState = getInitialState(props)
+  return initialState
+})
+```
+
+這時候 `getInitialState(props)` 僅在第一次渲染時執行，以獲得初始值。在之後的 re-render 都不會再執行 `getInitialState`。
+
+### 3. 若更新值與之前的 `state` 相同，則不會重新渲染
+
+舉例來說：
+
+```javascript
+const [count, setCount] = useState(0)
+
+<button onClick={() => {setCount(0)}}>Reset</button>
+```
+
+當按下按鈕後，因為新的值為 0 與前一個 `state` 一樣，所以並不會重新渲染。比較的方式是`Object.is` ，由於`Object.is` 是淺比較，對物件而言，如果 reference 一樣但值改變，則不會重新渲染。
+
+舉例來說：
+
+```javascript
+const App = () => {
+  const [data, setData] = useState([])
+  const handleClick = () => {
+    let newData = data
+    newData.push(1)
+    setData(newData)
+  }
+
+  return (
+    <div>
+      <button onClick={handleClick}>Add data</button>
+    </div>
+  )
+}
+```
+
+上面的案例，由於 newData 和 data 指向同個 reference ，因此畫面不會重新渲染。
+
+參考資料：
+
+- [A guide to useState in React](https://blog.logrocket.com/a-guide-to-usestate-in-react-ecb9952e406c/)
+- [Everything You Need To Know About useState](https://blog.webdevsimplified.com/2020-04/use-state/)
+- [简单易懂的 React useState() Hook 指南](https://blog.csdn.net/qq_36380426/article/details/103855801)

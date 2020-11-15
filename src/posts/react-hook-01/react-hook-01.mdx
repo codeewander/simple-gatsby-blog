@@ -1,0 +1,130 @@
+---
+title: React Hook 的基本觀念及實作
+slug: react-hook-01
+year: 2020
+date: 2020-04-05 22:10:01
+tags: ["React", "React Hook"]
+categories: "React"
+featureImage: react-logo.png
+excerpt: 介紹 React Hook 的原理和概念
+---
+
+## React Hook 概念及使用規範
+
+React Hook 是 React 16.8 版本(2019 年)推出的新功能。其原理可以想像成是創造出一個外部的邏輯處理中心，把 React 的功能拉到裡面處理。在 functional component 中使用 React component API 時，會在創造元件的那一瞬間，依照順序給每一個使用的 React component API 一個編號，之後只要去比對在邏輯處理中心的編號，就知道現在要用的 component API 邏輯是屬於誰，這樣的概念就像是「元件用鉤子鉤在邏輯中心的固定位置」，所以稱為 Hook。
+
+在使用 React Hook 時必須遵守兩點規範：
+
+**1. 只能在 function component 和 custom hook 中使用**
+
+也就是說，不能在 class component 或是一般 JS 文件中使用。
+
+**2. 只能在 function component 的最外層使用 hook API，不能在迴圈、if-else 或 nested function 中呼叫**
+
+要理解 Hook 的規範，最直接的方式就是自己實做一個 hook 來理解 hook 是如何實踐的。
+
+## 如何實作一個 Hook - 以 useState 為例
+
+首先，一個最基本的 React 元件如下：
+
+```javascript
+import React, { useState } from "react"
+import ReactDOM from "react-dom"
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <div>
+      <div>Number:{count}</div>
+      <button onClick={() => setCount(count + 1)}>Add 1</button>
+    </div>
+  )
+}
+
+const rootElement = document.getElementById("root")
+ReactDOM.render(<App />, rootElement)
+```
+
+`useState`在元件中的行為如下：
+
+1. 傳入參數 0 做為 `count` 的初始值
+2. `useState` 回傳一個陣列，第一個值為 `count`，第二個值為可以改變 count 的函式 `setCount`
+3. 當使用者點擊按鈕時，呼叫 `setCount(count +1)`，`count` 被重新賦值，`count` 改變後會重新渲染畫面。
+
+將 `useState` 函式實作出來大致如下：
+
+```javascript
+function useState(initialState) {
+  let state = initialState
+  const setState = newState => {
+    state = newState
+  }
+  return [state, setState]
+}
+```
+
+4. 這時候點擊按鈕，`count` 並不會變化，因為每次更新時，`useState` 都會被重新調用，`count` 會被重新設為初始值。因此，為了讓更新值被記錄，而非一直被重新設為初始值 `initialState`，`state` 需要提取出來放在 `useState` 外面
+
+```javascript
+let _state
+function useState(initialState) {
+  _state = _state || initialState
+  const setState = newState => {
+    _state = newState
+  }
+  return [state, setState]
+}
+```
+
+但如果有多個計時器呢？
+
+```javascript
+const [count, setCount] = useState(0)
+const [count1, setCount1] = useState(1)
+```
+
+此時，會有一個問題是這兩個計時器共用了 `\_state`， 但 `\_state` 目前只能儲存一個值。這時候，使用「陣列」可以解決共用的問題。
+
+關鍵在於：
+
+1. 初次渲染時，按照兩個 `useState` 的順序將 `count`、`count1` 按順序放進 `\_state` 陣列中
+2. 更新時，按照順序從 `\_state` 陣列中把上次紀錄的值拿出來做更新
+
+```javascript
+let _state = [] // 值依序存放在陣列中
+let index = 0
+
+function useState(initialState) {
+  const currentIndex = index
+  _state[currentIndex] = _state[currentIndex] || initialState
+
+  function setState(newState) {
+    _state[currentState] = newState
+    render()
+  }
+
+  ++index
+  return [_state[currentIndex], setState]
+}
+```
+
+回頭來看前面提到的 React Hook 規範，就可以理解第二點：只能在 function component 的最外層使用 hook API，不能在迴圈、if-else 或 nested function 中呼叫，是因為 React Hook 是透過全域的陣列容器來保存多個狀態資料，而當每次元件重新渲染時，React 都會呼叫 function component，因此，陣列中的資料順序很重要。
+
+假設在在迴圈中呼叫 `UesState()`的話：
+
+```javascript
+const [isOpen, setIsOpen] = useState(true)
+if (isOpen) {
+  const [data, setData] = useState(1)
+}
+const [count, setCount] = useState(0)
+```
+
+如果某次 isOpen 變成 false，這時，順序 2 的`const [data,setData] = useState(1)`沒有被呼叫到，在那一次渲染時`const [count,setCount] = useState(0)` 在元件中的順序會從 3 變成 2，React 就會以為 `const [count,setCount]`要接收的是 `const [data,setData]`要接收到的值，導致程式錯誤。
+
+參考文章：
+
+- [React hooks: not magic, just arrays](https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e)
+- [一文彻底搞懂 react hooks 的原理和实现](https://juejin.im/post/6844903975838285838)
+- [React Hook 原理](https://github.com/brickspert/blog/issues/26)

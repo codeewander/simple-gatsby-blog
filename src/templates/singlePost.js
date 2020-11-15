@@ -60,7 +60,7 @@ const SinglePost = ({ data }) => {
       grid-template-rows: auto auto;
       margin: 2rem 0 3rem;
       border: 2px solid black;
-      padding: 1.5rem 1.5rem 0;
+      padding: 0.2rem 0.2rem 0;
       box-shadow: 1rem 1rem 0 0 black;
       .gatsby-image-wrapper {
         grid-row-start: 1;
@@ -149,9 +149,9 @@ const SinglePost = ({ data }) => {
         border-bottom: 1px solid #e5e5e5;
       }
       h3 {
-        font-size: 1.6rem;
-        line-height: 2.6rem;
-        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.85rem;
+        font-weight: 600;
         border-bottom: 1px solid #e5e5e5;
         margin: 3rem 0 1rem;
       }
@@ -190,7 +190,7 @@ const SinglePost = ({ data }) => {
         color: ${themeColor.primary};
       }
       strong {
-        font-weight: 700;
+        font-weight: 800;
       }
       em {
         font-style: italic;
@@ -226,6 +226,7 @@ const SinglePost = ({ data }) => {
         line-height: 1.875rem;
         background-color: #c9c9c9;
         padding: 0 0.3rem;
+        border-radius: 4px;
       }
       li {
         margin: 0.25rem 0;
