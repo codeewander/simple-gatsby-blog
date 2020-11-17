@@ -1,29 +1,27 @@
-import React, {useContext} from "react"
+import React, { useContext } from "react"
 import { css } from "emotion"
 import { Link, graphql, useStaticQuery } from "gatsby"
 import { ThemeContext } from "../contexts/ThemeContext"
 import styled from "@emotion/styled"
+import { FormattedMessage } from "gatsby-plugin-intl"
 
-
-const TagsMenu = ({setTargetTag,setActiveTab}) => {
-  const {themeColor} = useContext(ThemeContext)
-  
-  const style={
+const TagsMenu = ({ setTargetTag, setActiveTab }) => {
+  const { themeColor } = useContext(ThemeContext)
+  const style = {
     container: css`
-      .title{
+      .title {
         color: ${themeColor.link};
         border-bottom: 2px solid ${themeColor.primary};
         padding: 10px 0;
         font-size: 18px;
         text-align: center;
       }
-     .tagsWrapper{
-       margin-top: 3px;
-       border-top: 1px solid ${themeColor.primary};
-       padding-top: 5px;
-
-     }
-    `
+      .tagsWrapper {
+        margin-top: 3px;
+        border-top: 1px solid ${themeColor.primary};
+        padding-top: 5px;
+      }
+    `,
   }
   const data = useStaticQuery(graphql`
     query {
@@ -35,7 +33,7 @@ const TagsMenu = ({setTargetTag,setActiveTab}) => {
       }
     }
   `)
-  
+
   const StyledLink = styled(Link)`
     color: ${themeColor.primary};
     text-decoration: none;
@@ -45,19 +43,31 @@ const TagsMenu = ({setTargetTag,setActiveTab}) => {
       color: ${themeColor.hoverText};
     }
   `
-  const handleFilterTag =(target)=>{
+  const handleFilterTag = target => {
     setTargetTag(target)
     setActiveTab(2)
   }
 
   return (
     <div className={style.container}>
-      <h2 className="title">標籤</h2>
+      <h2 className="title">
+        <FormattedMessage id="tags" />
+      </h2>
       <div className="tagsWrapper">
         {data.allMdx.group.map(category => (
-            <StyledLink to="/blog" onClick={()=>handleFilterTag(category.fieldValue)}>
-              <span style={{fontSize: `clamp(12px, ${12 + category.totalCount}px ,20px))`}}>{category.fieldValue}</span>
-            </StyledLink>
+          <StyledLink
+            to="/blog"
+            onClick={() => handleFilterTag(category.fieldValue)}
+            key={category.fieldValue}
+          >
+            <span
+              style={{
+                fontSize: `clamp(12px, ${12 + category.totalCount}px ,20px))`,
+              }}
+            >
+              {category.fieldValue}
+            </span>
+          </StyledLink>
         ))}
       </div>
     </div>

@@ -7,6 +7,7 @@ import CategoryPosts from "../templates/categoryPosts"
 import AllPosts from "../templates/allPosts"
 import TagsMenu from "../components/tagsMenu"
 import Tags from "../templates/tags"
+import { FormattedMessage } from "gatsby-plugin-intl"
 
 const Blog = () => {
   const [activeTab, setActiveTab] = useState(0)
@@ -40,8 +41,12 @@ const Blog = () => {
     <Layout>
       <SEO title="blog lists" />
       <div className={style.tabs}>
-        <span onClick={() => handleChangeTab(0)}>分類文章</span>
-        <span onClick={() => handleChangeTab(1)}>全文列表</span>
+        <span onClick={() => handleChangeTab(0)}>
+          <FormattedMessage id="archive-posts" />
+        </span>
+        <span onClick={() => handleChangeTab(1)}>
+          <FormattedMessage id="all-posts" />
+        </span>
       </div>
       <div className={style.mainContent}>
         {activeTab === 0 && <CategoryPosts targetCategory={targetCategory} />}
