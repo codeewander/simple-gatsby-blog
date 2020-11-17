@@ -19,6 +19,7 @@ const Language = () => {
                 aria-label="delete"
                 style={{ fontSize: "14px", padding: "6px" }}
                 onClick={() => changeLocale(language)}
+                key={language}
               >
                 {languageName[language]}
               </IconButton>

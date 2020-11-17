@@ -87,7 +87,7 @@ const CategoryPosts = ({ targetCategory }) => {
   return (
     <div className={style.container}>
       {renderData.map(category => (
-        <>
+        <React.Fragment key={category.fieldValue}>
           <h2 className={style.groupTitle}>{category.fieldValue}</h2>
           <ol className={style.posts}>
             {category.nodes.map(node => (
@@ -108,7 +108,7 @@ const CategoryPosts = ({ targetCategory }) => {
               </>
             ))}
           </ol>
-        </>
+        </React.Fragment>
       ))}
     </div>
   )
