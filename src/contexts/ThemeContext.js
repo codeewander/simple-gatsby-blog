@@ -21,6 +21,7 @@ export const ThemeContextProvider = (props) => {
             hoverLink: '#9DDFD3',
             blockquoteBackground: '#f8f8f8',
             titleBannerBackground: '#fff',
+            languageButtonBackground: '#f3f3f3',
             tagsColor :['#b2deec','#16a596','#8bcdcd','#19d4da','#7fc381']
         },
         darkMode : {
@@ -33,6 +34,7 @@ export const ThemeContextProvider = (props) => {
             hoverLink: '#9DDFD3',
             blockquoteBackground: '#6c6c6c',
             titleBannerBackground: '#727171',
+            languageButtonBackground: '#727171',
             tagsColor : ['#b2deec','#16a596','#8bcdcd','#19d4da','#7fc381']
         }
     }

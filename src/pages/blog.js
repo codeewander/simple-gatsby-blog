@@ -7,12 +7,12 @@ import CategoryPosts from "../templates/categoryPosts"
 import AllPosts from "../templates/allPosts"
 import TagsMenu from "../components/tagsMenu"
 import Tags from "../templates/tags"
-import { FormattedMessage } from "gatsby-plugin-intl"
-
+import { useIntl } from 'gatsby-plugin-intl'
 const Blog = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [targetCategory, setTargetCategory] = useState("")
   const [targetTag, setTargetTag] = useState("")
+  const intl = useIntl()
 
   const style = {
     tabs: css`
@@ -42,10 +42,10 @@ const Blog = () => {
       <SEO title="blog lists" />
       <div className={style.tabs}>
         <span onClick={() => handleChangeTab(0)}>
-          <FormattedMessage id="archive-posts" />
+        {intl.formatMessage({id: "archive-posts"})}
         </span>
         <span onClick={() => handleChangeTab(1)}>
-          <FormattedMessage id="all-posts" />
+        {intl.formatMessage({id: "all-posts"})}
         </span>
       </div>
       <div className={style.mainContent}>

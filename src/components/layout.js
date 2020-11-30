@@ -4,8 +4,8 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import Footer from "./footer"
 import { css } from "@emotion/core"
-// import "./layout.css"
 import { ThemeContext } from '../contexts/ThemeContext'
+
 const Layout = ({ children }) => {
   const {isDark, themeColor} = useContext(ThemeContext)
 
@@ -15,6 +15,8 @@ const Layout = ({ children }) => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
   background-color: ${themeColor.background};
   color: ${themeColor.primary};
   .content{

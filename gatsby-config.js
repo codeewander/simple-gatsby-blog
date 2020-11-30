@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Kira's blog`,
+    title: `Kira 's personal website`,
     description: `A blog to keep my learning notes`,
     author: `Kira Yang`,
     url: "https://github.com/codeewander",
@@ -21,6 +21,12 @@ module.exports = {
       options: {
         name: `posts`,
         path: `${__dirname}/src/posts`,
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-responsive-iframe`],
       },
     },
     {
@@ -63,9 +69,9 @@ module.exports = {
         // language JSON resource path
         path: `${__dirname}/src/intl`,
         // supported language
-        languages: [`tw`,`en`],
+        languages: [`zh-TW`,`en`],
         // language file path
-        defaultLanguage: `tw`,
+        defaultLanguage: `en`,
         // option to redirect to `/ko` when connecting `/`
         redirect: true,
       },

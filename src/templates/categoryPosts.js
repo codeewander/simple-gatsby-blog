@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { css } from "emotion"
-import { Link, graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
+import { Link } from 'gatsby-plugin-intl'
 import { ThemeContext } from "../contexts/ThemeContext"
 import { CalendarToday, Category, AccessTime } from "@material-ui/icons"
 import PropTypes from "prop-types"
@@ -91,7 +92,6 @@ const CategoryPosts = ({ targetCategory }) => {
           <h2 className={style.groupTitle}>{category.fieldValue}</h2>
           <ol className={style.posts}>
             {category.nodes.map(node => (
-              <>
                 <li className="post" key={node.frontmatter.slug}>
                   <Link to={`/blog/${node.frontmatter.slug}`}>
                     <h2>{node.frontmatter.title}</h2>
@@ -105,7 +105,6 @@ const CategoryPosts = ({ targetCategory }) => {
                     {`${node.timeToRead} minute(s) read`}
                   </p>
                 </li>
-              </>
             ))}
           </ol>
         </React.Fragment>

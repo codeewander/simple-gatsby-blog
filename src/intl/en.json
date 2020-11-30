@@ -1,6 +1,7 @@
 {
     "home": "Home",
     "blog": "Blog",
+    "project": "Project",
     "category": "Categories",
     "tags":"Tags",
     "archive-posts": "Archive",

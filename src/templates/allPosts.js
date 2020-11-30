@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { css } from "emotion"
-import { Link, graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
+import { Link } from 'gatsby-plugin-intl' 
 import { ThemeContext } from "../contexts/ThemeContext"
 import {
   EventNote,

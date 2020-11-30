@@ -1,12 +1,13 @@
 import React, { useContext } from "react"
 import { css } from "emotion"
-import { Link, graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
+import { Link , useIntl } from 'gatsby-plugin-intl'
 import { ThemeContext } from "../contexts/ThemeContext"
 import styled from "@emotion/styled"
-import { FormattedMessage } from "gatsby-plugin-intl"
 
 const CategoryMenu = ({ setTargetCategory, setActiveTab }) => {
   const { themeColor } = useContext(ThemeContext)
+  const intl = useIntl()
 
   const style = {
     container: css`
@@ -57,7 +58,7 @@ const CategoryMenu = ({ setTargetCategory, setActiveTab }) => {
   return (
     <div className={style.container}>
       <h2 className="title">
-        <FormattedMessage id="category"/>
+      {intl.formatMessage({id:"category"})}
       </h2>
       <ul>
         {data.allMdx.group.map(category => (

@@ -1,0 +1,256 @@
+---
+title: Create a Custom React Hook to Handle Form Fields
+slug: react-hook-useForm
+year: 2020
+date: 2020-11-23 10:10:01
+tags: ["React", "React Hook"]
+categories: "React"
+featureImage: react-logo.png
+excerpt: simplify form using custom React hook
+---
+
+Form is one of the common features in web development. Recently, I was working on an application where I have got to write a lot of forms and validation logic repetitively.
+
+In order to make the components reusable and share logic across components,I tried to build the custom hook to handle it. In this article, I would like to share about it.
+
+![](https://i.imgur.com/W40OC2n.gif)
+
+## Create a Form component
+
+Let's start by creating a basic Form component:
+
+```javascript=
+import React, { useState } from "react"
+
+function Form() {
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Email Address</label>
+      <input type="email" name="email" />
+      <label className="label">Password</label>
+      <input className="input" type="password" name="password" />
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+
+export default Form
+```
+
+The input field has state we need to manage, and this can be done using the `useState` hook.
+
+```javascript=
+import React, { useState } from "react"
+
+function Form() {
+  const [values, setValues] = useState({})
+
+  const handleChange = e => {
+    setValues(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    //call API and submit data
+    console.log("submit form data")
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Email Address</label>
+      <input type="email" name="email" onChange={handleChange} />
+      <label className="label">Password</label>
+      <input
+        className="input"
+        type="password"
+        name="password"
+        onChange={handleChange}
+      />
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+
+export default Form
+```
+
+Besides, we also need to deal with the form validation and display the error message to user. For example, the input field can't be empty.
+
+```javascript=
+import React, { useState } from "react"
+
+function Form() {
+  const [values, setValues] = useState({})
+  const [errors, setErrors] = useState({})
+
+  const handleChange = e => {
+    setValues(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleValidation = () => {
+    let formIsValid = true
+    let errors = {}
+    if (!values.email) {
+      errors["email"] = "Email can't be empty"
+      formIsValid = false
+    }
+    if (!values.password) {
+      errors["password"] = "Password can't be empty"
+      formIsValid = false
+    }
+    setErrors(errors)
+    return formIsValid
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    if (handleValidation()) {
+      console.log("Form submitted")
+      //call API and submit data
+    } else {
+      console.log("Form has errors")
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Email Address</label>
+        <input type="email" name="email" onChange={handleChange} />
+        {errors.email && <span>{errors.email}</span>}
+      </div>
+      <div>
+        <label className="label">Password</label>
+        <input
+          className="input"
+          type="password"
+          name="password"
+          onChange={handleChange}
+        />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+
+export default Form
+```
+
+## Create a custom Hook - useForm
+
+Every form has two event handlers:
+
+- onSubmit — The handler that controls form’s submission
+- onChange — The handler that changes the input element’s values
+
+Here we can add the common logic`handleChange` and `handleSubmit` and `errors` and `values` in the custom hook, then take callback as an input parameter. Callback is a function that gets called whenever the user submits the form.
+
+To prevent API call when form has some errors, we can also add the state `isSubmitting` to manage whether the API call.
+
+Finally, we need to return the `handleChange` 、`handleSubnit` 、`values`and`errors` from the custom hook.
+
+```javascript
+import { useState, useEffect } from "react"
+
+//form validation logic
+function validate(values) {
+  let errors = {}
+
+  if (!values.email) {
+    errors.email = "Email can't be empty"
+  }
+  if (!values.password) {
+    errors.password = "Password can't be empty"
+  }
+
+  return errors
+}
+
+// custom hook
+const useForm = callback => {
+  const [values, setValues] = useState({})
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isSubmitting) {
+      callback()
+    }
+  }, [errors])
+
+  const handleSubmit = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    setErrors(validate(values))
+    setIsSubmitting(true)
+  }
+
+  const handleChange = event => {
+    setValues(prev => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }))
+  }
+
+  return {
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+  }
+}
+
+export default useForm
+```
+
+```javascript
+import useForm from "./useForm"
+import React, { useState } from "react"
+
+function Form() {
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    submitRegisterForm
+  )
+
+  function submitRegisterForm() {
+    //API call
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Email Address</label>
+        <input
+          type="email"
+          name="email"
+          onChange={handleChange}
+          value={values.email || ""}
+        />
+        {errors.email && <span>{errors.email}</span>}
+      </div>
+      <div>
+        <label className="label">Password</label>
+        <input
+          className="input"
+          type="password"
+          name="password"
+          onChange={handleChange}
+          value={values.password || ""}
+        />
+        {errors.password && <span>{errors.password}</span>}
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+
+Now the custom form hook finished.Our form component is reusable!
