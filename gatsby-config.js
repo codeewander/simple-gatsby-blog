@@ -76,5 +76,11 @@ module.exports = {
         redirect: true,
       },
     },
+    {
+      resolve: `gatsby-source-github-api`,
+      options: {
+        token: process.env.TOKEN,
+      }
+    }
   ],
 }

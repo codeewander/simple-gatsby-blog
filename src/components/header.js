@@ -144,8 +144,8 @@ const Header = () => {
               </StyledLink>
             </li>
             <li>
-              <StyledLink to="/project" activeClassName="nav-active-item">
-                {intl.formatMessage({ id: "project" })}
+              <StyledLink to="/portfolio" activeClassName="nav-active-item">
+                {intl.formatMessage({ id: "portfolio" })}
               </StyledLink>
             </li>
           </ul>
@@ -168,8 +168,8 @@ const Header = () => {
               </StyledLink>
             </li>
             <li>
-              <StyledLink to="/project" activeClassName="nav-active-item">
-                {intl.formatMessage({ id: "project" })}
+              <StyledLink to="/portfolio" activeClassName="nav-active-item">
+                {intl.formatMessage({ id: "portfolio" })}
               </StyledLink>
             </li>
           </ul>
